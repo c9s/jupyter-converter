@@ -1,5 +1,5 @@
 # Build stage
-FROM python:alpine3.6
+FROM python:alpine3.7
 
 RUN pip3 install nbconvert click ipython
 COPY python/jupyter-converter/converter.py /
