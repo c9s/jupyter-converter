@@ -1,5 +1,6 @@
-# Build stage
 FROM python:alpine3.7
+
+LABEL maintainer="yoanlin93@gmail.com"
 
 RUN pip3 install nbconvert click ipython
 COPY converter.py /
