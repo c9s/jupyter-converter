@@ -36,7 +36,7 @@ def init_nbconvert(output_dir):
 def main(src_file, output_file, build_dir):
     if src_file is None or output_file is None or build_dir is None:
         print("You should specify the input/output file name and build dir")
-        exit(0)
+        exit(1)
 
     print("The build directory is {}".format(build_dir))
     print("Ready to convert {} to {}.py".format(src_file, output_file))
@@ -48,14 +48,14 @@ def main(src_file, output_file, build_dir):
         input_buffer = io.StringIO(str(json.dumps(data)))
     except:
         print("Handle JSON fails : Unexpected error:", sys.exc_info()[0])
-        exit(0)
+        exit(1)
 
     print("Init the converter")
     try:
         exporter,writer = init_nbconvert(build_dir)
     except:
         print("Init nbconvert fails :Unexpected error:", sys.exc_info()[0])
-        exit(0)
+        exit(1)
 
     print("Converting the ipython to python")
     try:
@@ -63,7 +63,7 @@ def main(src_file, output_file, build_dir):
         writer.write(output, resources, notebook_name=output_file)
     except:
         print("Output fails: Unexpected error:", sys.exc_info()[0])
-        exit(0)
+        exit(1)
 
 if __name__ == '__main__':
     main()
