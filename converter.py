@@ -10,16 +10,18 @@ OUTPUT_FORMAT = "script"
 The ipython command will start with % and we will skip all of them
 """
 def remove_ipython_cells(data):
-    result = []
-    for c in data:
-        if c["cell_type"] == "code":
-            if len(c["source"]) > 0:
-                command = c["source"][0]
-                if command[0] == "%":
-                    continue
-        result.append(c)
-    return result
+    return [c for c in data if not (c["cell_type"]=="code" and c["source"] and c["source"][0][0]=="%")]
 
+def load_ipythonfile(src_file):
+    try:
+        with open(src_file,'r') as file:
+            data=json.load(file)
+        data["cells"]=remove_ipython_cells(data["cells"])
+        return data
+    except Exception as e:
+        print(f"Failed to load and preprocess the IPython file: {e}")
+        
+                                    
 def init_nbconvert(output_dir):
     cls = nb.exporters.base.get_exporter(OUTPUT_FORMAT)
     exporter = cls()
